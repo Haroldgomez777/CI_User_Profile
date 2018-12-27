@@ -30,9 +30,9 @@ echo "<br/>";
 </div>
 <br/>
 
-<?php echo $error; ?>
+<?php if(isset($error)){ echo $error; } ?>
 
-<?php echo form_open_multipart('upload/do_upload'); ?>
+<?php echo form_open_multipart('user_authentication/do_upload'); ?>
 
 <input type="file" name="userfile" size="20" />
 

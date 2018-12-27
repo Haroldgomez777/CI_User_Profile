@@ -100,17 +100,45 @@ class User_Authentication extends CI_Controller
         }
     }
 
-// Logout from admin page
+    // Logout from admin page
     public function logout()
     {
 
-// Removing session data
+        // Removing session data
         $sess_array = array(
             'name' => '',
         );
         $this->session->unset_userdata('logged_in', $sess_array);
         $data['message_display'] = 'Successfully Logout';
         $this->load->view('login_form', $data);
+    }
+
+    public function do_upload()
+    {
+            $image_path                     = realpath(APPPATH . '../uploads');
+            $config['upload_path']          = $image_path;
+            $config['allowed_types']        = 'gif|jpg|png';
+            $config['max_size']             = 10000;
+            $config['max_width']            = 10240;
+            $config['max_height']           = 7680;
+
+/*             var_dump($config['upload_path']);
+            die(); */
+            $this->load->library('upload', $config);
+
+            if ( ! $this->upload->do_upload('userfile'))
+            {
+                    $error = array('error' => $this->upload->display_errors());
+                    $this->load->view('admin_page',$error);
+                    /* return redirect("user_authentication/user_login_process","location"); */
+            }
+            else
+            {
+                    $data = array('upload_data' => $this->upload->data());
+
+                    $this->load->view('admin_page',$data);
+                    /* $this->load->view('upload_success', $data); */
+            }
     }
 
 }
