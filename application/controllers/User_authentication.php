@@ -7,16 +7,9 @@ class User_Authentication extends CI_Controller
     {
         parent::__construct();
 
-// Load form helper library
         $this->load->helper('form');
-
-// Load form validation library
         $this->load->library('form_validation');
-
-// Load session library
         $this->load->library('session');
-
-// Load database
         $this->load->model('login_database');
     }
 
@@ -32,11 +25,11 @@ class User_Authentication extends CI_Controller
         $this->load->view('registration_form');
     }
 
-// Validate and store registration data in database
+    // Validate and store registration data in database
     public function new_user_registration()
     {
 
-// Check validation for user input in SignUp form
+        // Check validation for user input in SignUp form
         $this->form_validation->set_rules('name', 'Username', 'trim|required|xss_clean');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
@@ -50,7 +43,7 @@ class User_Authentication extends CI_Controller
             );
             $result = $this->login_database->registration_insert($data);
             if ($result == true) {
-                $data['message_display'] = 'Registration Successfully !';
+                $data['message_display'] = 'Registration Successfully Completed!';
                 $this->load->view('login_form', $data);
             } else {
                 $data['message_display'] = 'Username already exist!';
@@ -87,7 +80,7 @@ class User_Authentication extends CI_Controller
                         'name' => $result[0]->name,
                         'email' => $result[0]->email,
                     );
-// Add user data in session
+                    // Add user data in session
                     $this->session->set_userdata('logged_in', $session_data);
                     $this->load->view('admin_page');
                 }
@@ -125,7 +118,8 @@ class User_Authentication extends CI_Controller
 /*             var_dump($config['upload_path']);
             die(); */
             $this->load->library('upload', $config);
-
+            var_dump($_FILES['userfile']['name']);
+            die();
             if ( ! $this->upload->do_upload('userfile'))
             {
                     $error = array('error' => $this->upload->display_errors());
